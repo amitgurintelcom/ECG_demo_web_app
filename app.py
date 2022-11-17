@@ -50,7 +50,7 @@ with c30:
         res = conn.getresponse()
         data = res.read()
         output = data.decode("utf-8")
-        gender = re.search(r"\":\[.*\"", output)
+        gender = re.sub(r"\":\[(.*)\"",r"\1" output)
         st.info(
             f"""
                 {output} {gender}
