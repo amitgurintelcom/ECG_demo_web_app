@@ -55,8 +55,8 @@ with c30:
         prob_perc = float(prob)*100
         st.info(
             f"""
-                Gender: {gender} , Probability: {prob_perc}%
-                👆 The prediction result. [Gender, Probability]
+                Gender: {gender} \n Probability: {prob_perc}%     
+                
                 """
         )
         st.image("./logos.jpg")
