@@ -51,7 +51,7 @@ with c30:
         output = data.decode("utf-8")
         st.info(
             f"""
-                output
+                {output}
                 👆 The prediction result. [Gender, Probability]
                 """
         )
