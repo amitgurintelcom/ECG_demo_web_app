@@ -1,4 +1,4 @@
-streamlit
+streamlit=1.14.1
 #streamlit-aggrid==0.2.2-2
 click==8
 http.client
