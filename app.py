@@ -22,6 +22,7 @@ def _max_width_():
     )
 
 st.set_page_config(page_icon="✂️", page_title="ECG Gender Prediction")
+st.image("./logos.jpg")
 st.image("./ecg.gif", width=500)
 st.title("ECG Gender Prediction")
 c30, c31 = st.columns([16, 1])
@@ -59,12 +60,10 @@ with c30:
                 
                 """
             )
-        st.image("./logos.jpg")
     else:
         st.info(
             f"""
                 👆 Upload a .npy ECG file first.)
                 """
         )
-        st.image("./logos.jpg")
         st.stop()
