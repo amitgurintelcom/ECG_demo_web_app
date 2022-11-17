@@ -53,7 +53,7 @@ with c30:
         gender = re.sub(r'.*\":\[\"(.*)\".*',r'\1', output)
         prob = re.sub(r'.*\"\,(0.\d{3}).*',r'\1', output)
         prob_perc = float(prob)*100
-        st.info(
+        st.subheader(
             f"""
                 Gender: {gender} \n Probability: {prob_perc}%     
                 
