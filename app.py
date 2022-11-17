@@ -71,7 +71,7 @@ with c30:
                 👆 The prediction result. [Gender, Probability]
                 """
         )
-        st.image("./logos.png")
+        st.image("./logos.jpg")
 
 
 
@@ -81,7 +81,7 @@ with c30:
                 👆 Upload a .npy ECG file first.)
                 """
         )
-        st.image("./logos.png")
+        st.image("./logos.jpg")
 
 
         st.stop()
