@@ -58,7 +58,7 @@ with c30:
                 Gender: {gender} \n Probability: {prob_perc}%     
                 
                 """
-            , font-size: 42px)
+            )
         st.image("./logos.jpg")
     else:
         st.info(
