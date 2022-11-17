@@ -52,10 +52,9 @@ with c30:
         output = data.decode("utf-8")
         gender = re.sub(r'.*\":\[\"(.*)\".*',r'\1', output)
         prob = re.sub(r'.*\"\,(0.\d{2}).*',r'\1', output)
-        prob_perc =int(prob)*100
         st.info(
             f"""
-                Gender: {gender} , Probability: {prob_repc}%
+                Gender: {gender} , Probability: {prob}%
                 👆 The prediction result. [Gender, Probability]
                 """
         )
