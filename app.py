@@ -55,7 +55,7 @@ with c30:
         prob_perc =int(prob)*100
         st.info(
             f"""
-                Gender: {gender} , Probability: {prob_repc}
+                Gender: {gender} , Probability: {prob_repc}%
                 👆 The prediction result. [Gender, Probability]
                 """
         )
