@@ -50,10 +50,12 @@ with c30:
         res = conn.getresponse()
         data = res.read()
         output = data.decode("utf-8")
-        gender = re.sub(r'.*\":\[(.*)\".*',r'\1', output)
+        gender = re.sub(r'.*\":\[\"(.*)\".*',r'\1', output)
+        prob = re.sub(r'.*\"\,(0.\d{2}).*',r'\1', output)
+        prob_perc =int(prob)*100
         st.info(
             f"""
-                {output} {gender}
+                Gender: {gender} , Probability: {prob_repc}
                 👆 The prediction result. [Gender, Probability]
                 """
         )
