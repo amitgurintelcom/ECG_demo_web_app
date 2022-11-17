@@ -22,7 +22,7 @@ def _max_width_():
     )
 
 st.set_page_config(page_icon="✂️", page_title="ECG Gender Prediction")
-st.image("./ecg.gif", width=300)
+st.image("./ecg.gif", width=500)
 st.title("ECG Gender Prediction")
 c30, c31 = st.columns([16, 1])
 with c30:
@@ -30,7 +30,7 @@ with c30:
         "",
         type="npy",
         key="1",
-        help="To activate 'wide mode', go to the hamburger menu > Settings > turn on 'wide mode'",
+        help="To activate 'wide mode', go to the menu > Settings > turn on 'wide mode'",
     )
     if uploaded_file is not None:
         content = uploaded_file.read()
@@ -44,7 +44,7 @@ with c30:
     if uploaded_file is not None:
         file_container = st.expander("Check your uploaded .csv")
         conn = http.client.HTTPSConnection("gastro-web-4-1.am22ensuxenodo5ihblszm8.cloud.cnvrg.io", 443)
-        st.info('Sending POST command to the server')
+        st.info('Sending File to the server')
         conn.request("POST", "/api/v1/endpoints/cukczelw3sytfuga7byy", payload, headers)
         st.info('Got server response')
         res = conn.getresponse()
