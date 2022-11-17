@@ -22,8 +22,8 @@ def _max_width_():
     )
 
 st.set_page_config(page_icon="✂️", page_title="ECG Gender Prediction")
-st.image("./logos.jpg", width=100)
-st.image("./ecg.gif", width=200)
+st.image("./logos.jpg", width=250)
+st.image("./ecg.gif", width=250)
 st.title("ECG Gender Prediction")
 c30, c31 = st.columns([16, 1])
 with c30:
