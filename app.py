@@ -2,6 +2,7 @@ import streamlit as st
 import http.client
 import base64
 import json
+import re
 ###################################
 from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
@@ -49,9 +50,10 @@ with c30:
         res = conn.getresponse()
         data = res.read()
         output = data.decode("utf-8")
+        gender = re.search(r"\":\[.*\"", output)
         st.info(
             f"""
-                {output}
+                {output} {gender}
                 👆 The prediction result. [Gender, Probability]
                 """
         )
