@@ -61,6 +61,7 @@ with c30:
             )
     st.info(f'web host is {selected}')
     api_key, conn_addr, conn_req = select_host(selected)    
+    st.info(f'api_key {api_key}  conn_addr {conn_addr}  conn_req {conn_req}')
         
     uploaded_file = st.file_uploader(
         "",
