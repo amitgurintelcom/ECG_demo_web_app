@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
 import http.client
 import base64
 import json
@@ -27,6 +28,28 @@ st.image("./ecg.gif", width=250)
 st.title("ECG Gender Prediction")
 c30, c31 = st.columns([16, 1])
 with c30:
+    selected = option_menu(
+        menu_title="Choose web host",  # required
+        options=["AWS", "Intel DevCloud", "Azure (Future)"],  # required
+        icons=["snow2", "bank2", "microsoft"],  # optional
+        menu_icon="heart-pulse",  # optional
+        default_index=0,  # optional
+            )
+    st.info(f'web host is {selected}')
+    if selected=="AWS":
+        api_key="dm32GHs3S9eojhMm5SsV9FbG"
+        conn_addr="gastro-web-4-1.am22ensuxenodo5ihblszm8.cloud.cnvrg.io"
+        conn_req="/api/v1/endpoints/cukczelw3sytfuga7byy"
+    elif selected=="Intel DevCloud":
+        api_key="WeaN8QbbKmhWZHJryoJzuUM1"
+        conn_addr="ecg-web-dev-cloud-1.aaorm9bej4xwhihmdknjw5e.cloud.cnvrg.io"
+        conn_req="/api/v1/endpoints/q6wmgijl7mqesrqneoau"
+    else:
+        api_key="dm32GHs3S9eojhMm5SsV9FbG"
+        conn_addr="gastro-web-4-1.am22ensuxenodo5ihblszm8.cloud.cnvrg.io"
+        conn_req="/api/v1/endpoints/cukczelw3sytfuga7byy"
+        
+        
     uploaded_file = st.file_uploader(
         "",
         type="npy",
@@ -39,14 +62,14 @@ with c30:
         request_dict = {"input_params":encoded_string}
         payload = '{"input_params":' + json.dumps(request_dict) + "}"
         headers = {
-            'Cnvrg-Api-Key': "WeaN8QbbKmhWZHJryoJzuUM1",
+            'Cnvrg-Api-Key': api_key,
             'Content-Type': "application/json"
             }
     if uploaded_file is not None:
         file_container = st.expander("Check your uploaded .csv")
-        conn = http.client.HTTPSConnection("ecg-web-dev-cloud-1.aaorm9bej4xwhihmdknjw5e.cloud.cnvrg.io")
+        conn = http.client.HTTPSConnection(conn_addr)
         st.info('Sending File to the server')
-        conn.request("POST", "/api/v1/endpoints/q6wmgijl7mqesrqneoau", payload, headers)
+        conn.request("POST", conn_req, payload, headers)
         st.info('Got server response')
         res = conn.getresponse()
         data = res.read()
