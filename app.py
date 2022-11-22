@@ -39,14 +39,14 @@ with c30:
         request_dict = {"input_params":encoded_string}
         payload = '{"input_params":' + json.dumps(request_dict) + "}"
         headers = {
-            'Cnvrg-Api-Key': "dm32GHs3S9eojhMm5SsV9FbG",
+            'Cnvrg-Api-Key': "njYRcwxp5ZoMfnP59EEMc5SA",
             'Content-Type': "application/json"
             }
     if uploaded_file is not None:
         file_container = st.expander("Check your uploaded .csv")
-        conn = http.client.HTTPSConnection("gastro-web-4-1.am22ensuxenodo5ihblszm8.cloud.cnvrg.io", 443)
+        conn = http.client.HTTPSConnection("gastro-web-dev-cloud-1.aaorm9bej4xwhihmdknjw5e.cloud.cnvrg.io")
         st.info('Sending File to the server')
-        conn.request("POST", "/api/v1/endpoints/cukczelw3sytfuga7byy", payload, headers)
+        conn.request("POST", "/api/v1/endpoints/txxgsaftszsbgcbcfzbk", payload, headers)
         st.info('Got server response')
         res = conn.getresponse()
         data = res.read()
