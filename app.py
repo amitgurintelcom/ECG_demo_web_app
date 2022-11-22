@@ -24,12 +24,12 @@ def _max_width_():
     )
 def select_host(selected):
     if selected=="AWS":
-        api_key=os.getenv('api_key_aws')
-        conn_addr=os.getenv('conn_addr_aws')
-        conn_req=os.getenv('conn_req_aws')
-        # api_key="dm32GHs3S9eojhMm5SsV9FbG"
-        # conn_addr="gastro-web-4-1.am22ensuxenodo5ihblszm8.cloud.cnvrg.io"
-        # conn_req="/api/v1/endpoints/cukczelw3sytfuga7byy"
+        # api_key=os.getenv('api_key_aws')
+        # conn_addr=os.getenv('conn_addr_aws')
+        # conn_req=os.getenv('conn_req_aws')
+        api_key="dm32GHs3S9eojhMm5SsV9FbG"
+        conn_addr="gastro-web-4-1.am22ensuxenodo5ihblszm8.cloud.cnvrg.io"
+        conn_req="/api/v1/endpoints/cukczelw3sytfuga7byy"
     elif selected=="Intel DevCloud":
         api_key=os.getenv('api_key_intel')
         conn_addr=os.getenv('conn_addr_intel')
