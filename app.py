@@ -61,7 +61,7 @@ with c30:
             )
     st.info(f'web host is {selected}')
     api_key, conn_addr, conn_req = select_host(selected)    
-    st.info(f'api_key {api_key}  conn_addr {conn_addr}  conn_req {conn_req}')
+    # st.info(f'api_key {api_key}  conn_addr {conn_addr}  conn_req {conn_req}')
         
     uploaded_file = st.file_uploader(
         "",
@@ -83,7 +83,7 @@ with c30:
         conn = http.client.HTTPSConnection(conn_addr)
         st.info('Sending File to the server')
         conn.request("POST", conn_req, payload, headers)
-        st.info('Got server response')
+        st.info('Got server POST response')
         res = conn.getresponse()
         data = res.read()
         output = data.decode("utf-8")
