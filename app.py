@@ -87,8 +87,7 @@ with c30:
         res = conn.getresponse()
         data = res.read()
         output = data.decode("utf-8")
-        st.info(f'data from server: {output}')
-
+       # st.info(f'data from server: {output}')
         if type(output) != str:
             print("Results in empty")
             st.info('Result is empty')
@@ -104,13 +103,11 @@ with c30:
             mortality_chance_perc=float(mortality_chance)*100
             cardiac_ejection=re.sub(r'.*fraction\"\,(0.\d{3}).*',r'\1', output)
             cardiac_ejection_perc=float(cardiac_ejection)*100
-
         st.subheader(
             f"""
-                Gender: {gender},  Confidence: {prob_perc}% \n
-                No mortality chance: {mortality_chance_perc}% \n
+                No mortality chance: {mortality_chance_perc}% 
                 Cardiac ejective fraction: {cardiac_ejection_perc}%
-                
+                Gender: {gender} Confidence: {prob_perc}% 
                 """
             )
     else:
