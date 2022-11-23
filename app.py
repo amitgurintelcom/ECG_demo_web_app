@@ -103,7 +103,7 @@ with c30:
             mortality_chance_perc=float(mortality_chance)*100
             cardiac_ejection=re.sub(r'.*fraction\"\,(0.\d{3}).*',r'\1', output)
             cardiac_ejection_perc=float(cardiac_ejection)*100
-        st.subheader(
+        st.info(
             f"""
                 No mortality chance: {mortality_chance_perc}% 
                 Cardiac ejective fraction: {cardiac_ejection_perc}%
