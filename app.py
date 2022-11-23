@@ -87,6 +87,8 @@ with c30:
         res = conn.getresponse()
         data = res.read()
         output = data.decode("utf-8")
+        st.info(f'data from server: {output}')
+
         if type(output) != str:
             print("Results in empty")
             st.info('Result is empty')
