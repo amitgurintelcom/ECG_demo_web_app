@@ -105,8 +105,8 @@ with c30:
             cardiac_ejection_perc=float(cardiac_ejection)*100
         st.info(
             f"""
-                No mortality chance: {mortality_chance_perc}% 
-                Cardiac ejective fraction: {cardiac_ejection_perc}%
+                No mortality chance: {mortality_chance_perc}% \n
+                Cardiac ejective fraction: {cardiac_ejection_perc}% \n
                 Gender: {gender} Confidence: {prob_perc}% 
                 """
             )
