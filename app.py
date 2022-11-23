@@ -97,8 +97,8 @@ with c30:
             mortality_chance="Error"
             Cardiac_ejection="Error"
         else:
-            gender = re.sub(r'.*\":\[\"(.*)\"\,.*',r'\1', output)
-            prob = re.sub(r'.*\"\,(0.\d{3}).*',r'\1', output)
+            gender = re.sub(r'.*\":\[\"(.*le)\"\,.*',r'\1', output)
+            prob = re.sub(r'.*le\"\,(0.\d{3}).*',r'\1', output)
             prob_perc = float(prob)*100       
             mortality_chance=re.sub(r'.*chance\"\,(0.\d{3}).*',r'\1', output)
             mortality_chance_perc=float(mortality_chance)*100
@@ -107,9 +107,9 @@ with c30:
 
         st.subheader(
             f"""
-                Gender: {gender} \n Confidence: {prob_perc}% \n
-                No mortality chance: {mortality_chance_perc} \n
-                Cardiac ejective fraction: {cardiac_ejection_perc}
+                Gender: {gender},  Confidence: {prob_perc}% \n
+                No mortality chance: {mortality_chance_perc}% \n
+                Cardiac ejective fraction: {cardiac_ejection_perc}%
                 
                 """
             )
