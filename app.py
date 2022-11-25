@@ -46,20 +46,34 @@ def select_host(selected):
         # conn_req="/api/v1/endpoints/cukczelw3sytfuga7byy"
     return api_key, conn_addr, conn_req
     
-st.set_page_config(page_icon="✂️", page_title="ECG Gender Prediction")
-st.image("./logos.jpg", width=250)
-st.image("./ecg.gif", width=250)
-st.title("ECG Gender Prediction")
-c30, c31 = st.columns([16, 1])
-with c30:
-    selected = option_menu(
-        menu_title="Choose web host",  # required
-        options=["AWS", "Intel DevCloud", "Azure (Future)"],  # required
-        icons=["snow2", "bank2", "microsoft"],  # optional
-        menu_icon="heart-pulse",  # optional
-        default_index=0,  # optional
-            )
-    st.info(f'web host is {selected}')
+st.set_page_config(page_icon="✂️", page_title="ECG Prediction", layout="wide")
+
+with st.sidebar:
+        selected = option_menu(
+            menu_title="Choose web host",  # required
+            options=["AWS", "Intel DevCloud", "Azure (Future)"],  # required
+            icons=["snow2", "bank2", "microsoft"],  # optional
+            menu_icon="heart-pulse",  # optional
+            default_index=0,  # optional
+                )
+        st.info(f'web host is {selected}', icon="ℹ️")
+
+
+            
+c1_1, c1_2, _, _ = st.columns([3.5, 8, 8, 8])
+with c1_1:
+    st.image('./intel.png', width=100)
+with c1_2:
+    st.subheader('Developer Cloud')
+
+c1, c2 = st.columns([5,5])
+with c1:
+    st.title("ECG Prediction")
+    st.write('Some summary about ECG prediction should be added here. TBD')
+    st.image('ecg.gif', width=200)
+    st.image('footer.png')
+
+with c2:
     api_key, conn_addr, conn_req = select_host(selected)    
     # st.info(f'api_key {api_key}  conn_addr {conn_addr}  conn_req {conn_req}')
         
@@ -103,11 +117,18 @@ with c30:
             mortality_chance_perc=float(mortality_chance)*100
             cardiac_ejection=re.sub(r'.*fraction\"\,(0.\d{3}).*',r'\1', output)
             cardiac_ejection_perc=float(cardiac_ejection)*100
-        st.info(f'No mortality chance: {mortality_chance_perc}%  Cardiac ejective fraction: {cardiac_ejection_perc}%  Gender: {gender} Confidence: {prob_perc}% ')
+        st.info(f'No mortality chance: {mortality_chance_perc}%')
+        st.info(f'Cardiac ejective fraction: {cardiac_ejection_perc}%')
+        st.info(f'Gender: {gender} Confidence: {prob_perc}%')
     else:
         st.info(
             f"""
-                👆 Upload a .npy ECG file first.)
+                👆 Please upload a .npy ECG file first
                 """
         )
         st.stop()
+
+
+
+#st.image("./logos.jpg", width=250)
+#st.image("./ecg.gif", width=250)
