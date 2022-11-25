@@ -77,12 +77,7 @@ with c2:
     api_key, conn_addr, conn_req = select_host(selected)    
     # st.info(f'api_key {api_key}  conn_addr {conn_addr}  conn_req {conn_req}')
         
-    uploaded_file = st.file_uploader(
-        "",
-        type="npy",
-        key="1",
-        help="To activate 'wide mode', go to the menu > Settings > turn on 'wide mode'",
-    )
+    uploaded_file = st.file_uploader("", type="npy", key="1")
     if uploaded_file is not None:
         content = uploaded_file.read()
         encoded_string = base64.b64encode(content).decode("utf-8")
@@ -94,13 +89,16 @@ with c2:
             }
     if uploaded_file is not None:
         file_container = st.expander("Check your uploaded .csv")
-        conn = http.client.HTTPSConnection(conn_addr)
-        st.info('Sending File to the server')
-        conn.request("POST", conn_req, payload, headers)
-        st.info('Got server POST response')
-        res = conn.getresponse()
-        data = res.read()
-        output = data.decode("utf-8")
+        try:
+            conn = http.client.HTTPSConnection(conn_addr)
+            st.info('Sending File to the server')
+            conn.request("POST", conn_req, payload, headers)
+            st.info('Got server POST response')
+            res = conn.getresponse()
+            data = res.read()
+            output = data.decode("utf-8")
+        except: 
+            st.error('Cant connect to server. Try to disable VPN!')
        # st.info(f'data from server: {output}')
         if type(output) != str:
             print("Results in empty")
