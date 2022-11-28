@@ -10,6 +10,9 @@ from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 from st_aggrid.shared import JsCode
 ###################################
+is_exception_raised = False
+output = None
+
 def _max_width_():
     max_width_str = f"max-width: 1800px;"
     st.markdown(
@@ -22,6 +25,7 @@ def _max_width_():
     """,
         unsafe_allow_html=True,
     )
+
 def select_host(selected):
     if selected=="AWS":
         api_key=os.getenv('api_key_aws')
@@ -58,8 +62,6 @@ with st.sidebar:
                 )
         st.info(f'web host is {selected}', icon="ℹ️")
 
-
-            
 c1_1, c1_2, _, _ = st.columns([3.5, 8, 8, 8])
 with c1_1:
     st.image('./intel.png', width=100)
@@ -69,14 +71,15 @@ with c1_2:
 c1, c2 = st.columns([5,5])
 with c1:
     st.title("ECG Prediction")
-    st.write('Some summary about ECG prediction should be added here. TBD')
+    st.write('''ECG is an old technology, cheap, and readily available, hence a great use case for large scale training on non-standard data.
+            'The ability to predict diseases as well as age and gender, allows physicians to quickly and erroneously provide robust results
+             to their patients. This demo runs the ViT model trained on masses of labeled ECG signals from Sheba. 
+             We reached 98% accuracy, 2x over state of the art.''')
     st.image('ecg.gif', width=200)
     st.image('footer.png')
 
 with c2:
-    api_key, conn_addr, conn_req = select_host(selected)    
-    # st.info(f'api_key {api_key}  conn_addr {conn_addr}  conn_req {conn_req}')
-        
+    api_key, conn_addr, conn_req = select_host(selected)
     uploaded_file = st.file_uploader("", type="npy", key="1")
     if uploaded_file is not None:
         content = uploaded_file.read()
@@ -87,46 +90,36 @@ with c2:
             'Cnvrg-Api-Key': api_key,
             'Content-Type': "application/json"
             }
+
     if uploaded_file is not None:
         file_container = st.expander("Check your uploaded .csv")
-        try:
-            conn = http.client.HTTPSConnection(conn_addr)
-            st.info('Sending File to the server')
-            conn.request("POST", conn_req, payload, headers)
-            st.info('Got server POST response')
-            res = conn.getresponse()
-            data = res.read()
-            output = data.decode("utf-8")
-        except: 
-            st.error('Cant connect to server. Try to disable VPN!')
-       # st.info(f'data from server: {output}')
-        if type(output) != str:
-            print("Results in empty")
-            st.info('Result is empty')
-            gender="Error"
-            prob_perc="Error"
-            mortality_chance="Error"
-            Cardiac_ejection="Error"
-        else:
-            gender = re.sub(r'.*\":\[\"(.*le)\"\,.*',r'\1', output)
-            prob = re.sub(r'.*le\"\,(0.\d{3}).*',r'\1', output)
-            prob_perc = float(prob)*100       
-            mortality_chance=re.sub(r'.*chance\"\,(0.\d{3}).*',r'\1', output)
-            mortality_chance_perc=float(mortality_chance)*100
-            cardiac_ejection=re.sub(r'.*fraction\"\,(0.\d{3}).*',r'\1', output)
-            cardiac_ejection_perc=float(cardiac_ejection)*100
-        st.info(f'No mortality chance: {mortality_chance_perc}%')
-        st.info(f'Cardiac ejective fraction: {cardiac_ejection_perc}%')
-        st.info(f'Gender: {gender} Confidence: {prob_perc}%')
+        with st.spinner('This might take few seconds ... '):
+            try:
+                conn = http.client.HTTPSConnection(conn_addr)
+                st.info('Sending File to the server')
+                conn.request("POST", conn_req, payload, headers)
+                st.info('Got server POST response')
+                res = conn.getresponse()
+                data = res.read()
+                output = data.decode("utf-8")
+            except: 
+                st.error('Cant connect to server. Try to disable VPN!')
+                is_exception_raised = True
+                output = None
+
+    if not is_exception_raised and output is not None:
+        gender = re.sub(r'.*\":\[\"(.*le)\"\,.*',r'\1', output)
+        prob = re.sub(r'.*le\"\,(0.\d{3}).*',r'\1', output)
+        prob_perc = float(prob)*100       
+        mortality_chance=re.sub(r'.*chance\"\,(0.\d{3}).*',r'\1', output)
+        mortality_chance_perc=float(mortality_chance)*100
+        cardiac_ejection=re.sub(r'.*fraction\"\,(0.\d{3}).*',r'\1', output)
+        cardiac_ejection_perc=float(cardiac_ejection)*100
+
+        st.metric(label="Non-normal cardiac ejection fraction probability", value=f"{mortality_chance_perc}%")
+        st.metric(label=f'Cardiac ejection fraction', value=f"{cardiac_ejection_perc}%")
+        st.metric(label=f'Gender', value=f"{gender}")
+        st.metric(label=f'Gender Confidence', value=f"{prob_perc}%")
     else:
-        st.info(
-            f"""
-                👆 Please upload a .npy ECG file first
-                """
-        )
+        st.info(f"""👆 Please upload a .npy ECG file first""")
         st.stop()
-
-
-
-#st.image("./logos.jpg", width=250)
-#st.image("./ecg.gif", width=250)
