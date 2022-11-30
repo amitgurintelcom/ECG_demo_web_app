@@ -13,7 +13,6 @@ from st_aggrid.shared import JsCode
 is_exception_raised = False
 output = None
 
-
 def _max_width_():
     max_width_str = f"max-width: 1800px;"
     st.markdown(
@@ -26,7 +25,6 @@ def _max_width_():
     """,
         unsafe_allow_html=True,
     )
-
 
 import base64
 
@@ -104,12 +102,14 @@ with st.sidebar:
 
 st.title("ECG Prediction")
 
-
-st.write('''ECG is an old technology, cheap, and readily available, hence a great use case for large scale training on non-standard data.
+c_1, c_2 = st.columns([1,5])
+with c_1:
+    st.image('ecg.gif', width=200)
+with c_2:
+    st.write('''ECG is an old technology, cheap, and readily available, hence a great use case for large scale training on non-standard data.
         The ability to predict diseases as well as age and gender, allows physicians to quickly and erroneously provide robust results
         to their patients. This demo runs the ViT model trained on masses of labeled ECG signals from Sheba. 
         We reached 98% accuracy, 2x over state of the art.''')
-
 
 #set_png_in_footer('footer.png')
 
@@ -124,7 +124,6 @@ if uploaded_file is not None:
         'Cnvrg-Api-Key': api_key,
         'Content-Type': "application/json"
         }
-    present_ecg_image(content)
     file_container = st.expander("Check your uploaded .csv")
     with st.spinner('This might take few seconds ... '):
         try:
@@ -149,10 +148,15 @@ if not is_exception_raised and output is not None:
     cardiac_ejection=re.sub(r'.*fraction\"\,(0.\d{3}).*',r'\1', output)
     cardiac_ejection_perc=float(cardiac_ejection)*100
 
-    st.metric(label="Non-normal cardiac ejection fraction probability", value=f"{mortality_chance_perc}%")
-    st.metric(label=f'Cardiac ejection fraction', value=f"{cardiac_ejection_perc}%")
-    st.metric(label=f'Gender', value=f"{gender}")
-    st.metric(label=f'Gender Confidence', value=f"{prob_perc}%")
+    c1, c2, c3 = st.columns([5,4,4])
+    with c1:
+        present_ecg_image(content)
+    with c2:
+        st.metric(label="Non-normal cardiac ejection fraction probability", value=f"{mortality_chance_perc}%")
+        st.metric(label=f'Cardiac ejection fraction', value=f"{cardiac_ejection_perc}%")
+    with c3:
+        st.metric(label=f'Gender', value=f"{gender}")
+        st.metric(label=f'Gender Confidence', value=f"{prob_perc}%")
 else:
     st.info(f"""👆 Please upload a .npy ECG file first""")
     st.stop()
