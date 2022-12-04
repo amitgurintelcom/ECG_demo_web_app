@@ -3,3 +3,4 @@ streamlit-aggrid==0.2.2-2
 streamlit-option-menu==0.3.2
 click==8
 http.client
+scipy
