@@ -102,7 +102,7 @@ with st.sidebar:
 
 st.title("ECG Prediction")
 
-c_1, c_2 = st.columns([1,5])
+c_1, _, c_2 = st.columns([1,1,5])
 with c_1:
     st.image('ecg.gif', width=200)
 with c_2:
