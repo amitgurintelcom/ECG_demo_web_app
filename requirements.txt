@@ -5,3 +5,4 @@ click==8
 http.client
 scipy
 ecg-plot
+matplotlib
