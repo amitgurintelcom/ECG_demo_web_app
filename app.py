@@ -108,7 +108,7 @@ with st.sidebar:
     st.write("")
     selected = option_menu(
         menu_title="Choose web host",  # required
-        options=["AWS", "Intel DevCloud", "Azure (Future)"],  # required
+        options=["AWS", "Intel DevCloud, SGX enabled", "Azure (Future)"],  # required
         icons=["snow2", "bank2", "microsoft"],  # optional
         menu_icon="heart-pulse",  # optional
         default_index=0,  # optional
