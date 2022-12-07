@@ -155,24 +155,38 @@ if uploaded_file is not None:
             output = None
 
 if not is_exception_raised and output is not None:
-    gender = re.sub(r'.*\":\[\"(.*le)\"\,.*',r'\1', output)
-    prob = re.sub(r'.*le\"\,(0.\d{3}).*',r'\1', output)
-    prob_perc = float(prob)*100       
-    mortality_chance=re.sub(r'.*chance\"\,(0.\d{3}).*',r'\1', output)
-    mortality_chance_perc=float(mortality_chance)*100
-    cardiac_ejection=re.sub(r'.*fraction\"\,(0.\d{3}).*',r'\1', output)
-    cardiac_ejection_perc=float(cardiac_ejection)*100
+    pattern = "{\"prediction\":\["
+    repl = ""
+    result = re.sub(pattern, repl, output)
 
-    c1, c2 = st.columns([5,4])
+    pattern = '\",'
+    repl = ','
+    result = re.sub(pattern, repl, result)
+
+    pattern = '\"'
+    repl = ''
+    result = re.sub(pattern, repl, result)
+
+    pattern = '\]}\n'
+    repl = ''
+    result = re.sub(pattern, repl, result)
+
+    array = list(result.split(","))
+    prob_perc = float(array[1])*100
+
+    c1, c2, c3 = st.columns([4,4,4])
     with c1:
-        st.metric(label="Non-normal cardiac ejection fraction probability", value=f"{mortality_chance_perc}%")
-        st.metric(label=f'Cardiac ejection fraction', value=f"{cardiac_ejection_perc}%")
+        st.metric(label="Ejective Fraction", value=f"{array[4]}")
+        st.metric(label=f'Probability', value=f"{float(array[5])*100:.2f}%")
     with c2:
-        st.metric(label=f'Gender', value=f"{gender}")
-        st.metric(label=f'Gender Confidence', value=f"{prob_perc}%")
-    present_ecg_image(encoded_string)
-    
+        st.metric(label=f'Gender', value=f"{array[0]}")
+        st.metric(label=f'Probability', value=f"{float(array[1])*100:.2f}%")
+    with c3:
+        st.metric(label=f'Mortality', value=f"{array[2]}")
+        st.metric(label=f'Probability', value=f"{float(array[3])*100:.2f}%")
         
+    present_ecg_image(encoded_string)
+
 else:
     st.info(f"""👆 Please upload a .npy ECG file first""")
     st.stop()
